@@ -35,7 +35,7 @@ class ThirdPage extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "- Position your hand in front of the camera.",
+                "- Ensure that the camera captures at least half of the body, including both hands, within its frame, and position yourself accordingly.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -49,7 +49,7 @@ class ThirdPage extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "- Wait for hand gesture recognition.",
+                "- Perform the action or gesture at a slow and steady pace to improve the accuracy of the detection and tracking of keypoints.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -63,7 +63,7 @@ class ThirdPage extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "- Receive the translated hand sign.",
+                "- Make sure to perform the action in a well-lit environment to facilitate accurate detection and tracking of the keypoints on your hands.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
