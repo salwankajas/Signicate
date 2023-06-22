@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_mediapipe/gen/landmark.pb.dart';
 
-class FlutterMediapipe {
+class FlutterMediapipe with ChangeNotifier{
   final MethodChannel _methodChannel;
   final EventChannel _eventChannel;
 
@@ -21,6 +21,11 @@ class FlutterMediapipe {
     yield* _eventChannel
         .receiveBroadcastStream()
         .map((buffer) => NormalizedLandmarkList.fromBuffer(buffer));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 

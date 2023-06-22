@@ -1,33 +1,51 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:hello_flutter/home.dart';
 import 'package:hello_flutter/onboard/onboard.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:app_settings/app_settings.dart';
 
-Future<void> main() async{
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  requestCameraPermission();
   runApp(MyApp());
 }
 
-Future<void> requestCameraPermission() async {
-  var status = await Permission.camera.status;
-  print(Permission.camera.request().isGranted);
-  if (await Permission.camera.request().isGranted) {
+void openAppSettings() {
+  AppSettings.openAppSettings();
+}
 
-  }
-  if (await Permission.camera.isPermanentlyDenied) {
-    openAppSettings();
-  }else {
+Future<void> requestCameraPermission() async {
+  PermissionStatus status = await Permission.camera.request();
+
+  if (status.isGranted) {
+
+  } else if (status.isDenied) {
     SystemNavigator.pop();
+  } else if (status.isPermanentlyDenied) {
+    openAppSettings();
+      if(!status.isGranted){
+        SystemNavigator.pop();
+      }
   }
 }
 
-class MyApp extends StatelessWidget{
-  const MyApp({Key? key}) : super(key:key);
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp>{
+
+  @override
+  void initState() {
+    super.initState();
+    requestCameraPermission();
+  }
 
   @override
   Widget build(BuildContext context){

@@ -41,7 +41,7 @@ public class FlutterMediapipePlugin implements FlutterPlugin, ActivityAware {
 
     @Override
     public void onDetachedFromActivityForConfigChanges() {
-
+        
     }
 
     @Override
@@ -51,8 +51,11 @@ public class FlutterMediapipePlugin implements FlutterPlugin, ActivityAware {
 
     @Override
     public void onDetachedFromActivity() {
-        // methodChannel.setMethodCallHandler(null);
+        registry=null;
+        messenger = null;
+        factory = null;
     }
+
 
     private static class PermissionsListener implements RequestPermissionsResultListener {
 

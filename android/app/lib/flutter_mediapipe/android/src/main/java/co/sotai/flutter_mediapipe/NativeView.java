@@ -47,7 +47,6 @@ public class NativeView implements PlatformView, MethodCallHandler {
 
     // private static final String INPUT_NUM_FACES_SIDE_PACKET_NAME = "num_faces";
     private static final String OUTPUT_LANDMARKS_STREAM_NAME = "multi_face_landmarks";
-
     private static final String BINARY_GRAPH_NAME = "holistic_tracking_gpu.binarypb";
     private static final String INPUT_VIDEO_STREAM_NAME = "input_video";
     private static final String OUTPUT_VIDEO_STREAM_NAME = "output_video";
@@ -112,13 +111,13 @@ public class NativeView implements PlatformView, MethodCallHandler {
         eglManager = new EglManager(null);
         processor = new FrameProcessor(activity, eglManager.getNativeContext(), BINARY_GRAPH_NAME,
                 INPUT_VIDEO_STREAM_NAME, OUTPUT_VIDEO_STREAM_NAME);
-        // AndroidPacketCreator packetCreator = processor.getPacketCreator();
-        // Map<String, Packet> inputSidePackets = new HashMap<>();
+        AndroidPacketCreator packetCreator = processor.getPacketCreator();
+        Map<String, Packet> inputSidePackets = new HashMap<>();
         // inputSidePackets.put(INPUT_NUM_FACES_SIDE_PACKET_NAME,packetCreator.createInt32(NUM_FACES));
         // processor.setInputSidePackets(inputSidePackets);
         processor.getVideoSurfaceOutput().setFlipY(applicationInfo.metaData.getBoolean("flipFramesVertically", FLIP_FRAMES_VERTICALLY));
         PermissionHelper.checkAndRequestCameraPermissions(activity);
-        // processor.addPacketCallback(OUTPUT_LANDMARKS_STREAM_NAME, callback());
+        // processor.addPacketCallback(OUTPUT_VIDEO_STREAM_NAME, callback());
     }
 
     private void setChannel(BinaryMessenger messenger) {
@@ -132,6 +131,7 @@ public class NativeView implements PlatformView, MethodCallHandler {
         converter = new ExternalTextureConverter(eglManager.getContext());
         converter.setFlipY(applicationInfo.metaData.getBoolean("flipFramesVertically", FLIP_FRAMES_VERTICALLY));
         converter.setConsumer(processor);
+        // Log.e(Tag,)
         if (PermissionHelper.cameraPermissionsGranted(activity))
             startCamera();
     }
@@ -183,7 +183,8 @@ public class NativeView implements PlatformView, MethodCallHandler {
 
         if (call.method.equals("getPlatformVersion")) {
             result.success("Android " + android.os.Build.VERSION.RELEASE);
-        } else {
+        }
+        else {
             result.notImplemented();
         }
 
@@ -196,6 +197,7 @@ public class NativeView implements PlatformView, MethodCallHandler {
 
     @Override
     public void dispose() {
+        System.exit(0);
     }
 
     private void setupPreviewDisplayView(Activity activity) {
@@ -215,7 +217,6 @@ public class NativeView implements PlatformView, MethodCallHandler {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                Log.e(TAG,"wewerwerk");
                 processor.getVideoSurfaceOutput().setSurface(null);
             }
         });

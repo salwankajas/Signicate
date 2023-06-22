@@ -51,4 +51,8 @@ public class NativeViewFactory extends PlatformViewFactory {
   public NativeView getNativeView(){
     return nativeView;
   }
+  
+  public void disposeNativeView() {
+        nativeView.dispose();
+  }
 }
